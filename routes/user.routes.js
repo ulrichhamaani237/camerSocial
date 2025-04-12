@@ -3,6 +3,8 @@ const autController =require('../controllers/auth.controllers')
 const userControllers = require('../controllers/userControllers')
 // auth
 router.post('/register', autController.signUp)
+router.post('/login', autController.signIn)
+router.get('/logout', autController.logout)
 //
 router.get('/', userControllers.getAllUsers)
 router.get('/:id', userControllers.userInfo)
