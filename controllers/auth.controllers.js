@@ -1,6 +1,7 @@
 const UserModel = require("../models/userModel");
 const userModel = require("../models/userModel");
 const jwt = require("jsonwebtoken");
+const { signUpError, signInError } = require("../utils/errorsUtils");
 const maxAge = 1 * 60 * 60 * 1000;
 const createToken = (id) => {
   return jwt.sign({ id }, process.env.TOKEN_SECRET, {
@@ -18,7 +19,8 @@ module.exports.signUp = async (req, res) => {
       data: user,
     });
   } catch (error) {
-    return res.status(400).send({ error });
+    const errors = signUpError(error)
+    return res.status(400).send({ errors });
   }
 };
 
@@ -36,11 +38,16 @@ module.exports.signIn = async (req, res) => {
       .status(200)
       .json({ message: "Login successful", data: user });
   } catch (error) {
-    res.status(400).json({ message: "Login failed", error });
+    const errors= signInError(error)
+    res.status(400).send(errors);
   }
 };
 
 module.exports.logout = async (req, res) => {
-  res.cookie("jwt",'',{maxAge: 1})
+  res.clearCookie('jwt', { 
+    httpOnly: true, // Doit correspondre aux options initiales
+    sameSite: 'None', // Si vous utilisez des requêtes cross-site
+    secure: true // Si en HTTPS
+  });
   res.redirect('/')
 };
