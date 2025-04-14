@@ -18,15 +18,27 @@ module.exports.signUpError = (err) => {
   return errors;
 };
 
-module.exports.signInError = (err)=>{
-    let errors= {
-        email:'',password:''
-    }
-    if(err.message.includes('email'))
-        errors.email='email incorrect!';
+module.exports.signInError = (err) => {
+  let errors = {
+    email: "",
+    password: "",
+  };
+  if (err.message.includes("email")) errors.email = "email incorrect!";
 
-    if(err.message.includes('password'))
-        errors.password='mots de pass incoreect'
+  if (err.message.includes("password"))
+    errors.password = "mots de pass incoreect";
 
-    return errors;
-}
+  return errors;
+};
+
+module.exports.uploadError = (err) => {
+  let error = { format: "", maxSize: "" };
+
+  if (err.message.includes("Fichier non valide")) {
+    error.format = "Format est imcompatible";
+  } else if (err.message.includes("trop volumineux")) {
+    error.format = "le fichier a depasser 500ko";
+  }
+
+  return error;
+};

@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema(
       minlength: 3,
       maxlength: 55,
       unique: true,
-      trim: true,
+      trim: true, 
     },
     email: {
       type: String,
@@ -69,7 +69,7 @@ userSchema.statics.login = async function (email, password) {
     const auth = await bycript.compare(password, user.password);
     if (auth) {
       return user;
-    }
+    } 
     throw Error("incorrect password");
   }
   throw Error("incorrect email");
