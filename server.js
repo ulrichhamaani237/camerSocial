@@ -4,7 +4,20 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const userRoute = require("./routes/user.routes");
 const postRoute = require("./routes/post.routes");
+const cors = require('cors')
 const app = express();
+
+ 
+const corsOptions = {
+  origin: process.env.CLIENT_URL,
+  credentials: true,
+  'allowedHeaders': ['sessionId', 'Content-Type'],
+  'exposedHeaders': ['sessionId'],
+  'methods': 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  'preflightContinue': false
+}
+app.use(cors(corsOptions));
+
 require("./config/db");
 
 const authMiddleware = require("./middleware/authMiddleware");
